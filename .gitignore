@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+node_modules/
+staticfiles/vendors
+jspm_packacges/
+
 # Distribution / packaging
 .Python
 build/

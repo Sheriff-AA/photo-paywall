@@ -3,6 +3,9 @@ from django.db import models
 from django.utils import timezone
 from photos.models import Batch
 
+from downloads.models import DownloadToken
+
+
 class Purchase(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -34,5 +37,5 @@ class Purchase(models.Model):
         self.save()
         
         # Create download token
-        from downloads.models import DownloadToken
         DownloadToken.objects.create(purchase=self)
+

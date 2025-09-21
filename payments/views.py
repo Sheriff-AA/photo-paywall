@@ -124,3 +124,4 @@ class StripeWebhookView(APIView):
                 pass
         
         return HttpResponse(status=200)
+    

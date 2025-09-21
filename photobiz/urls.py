@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -27,7 +28,7 @@ urlpatterns = [
     path('api/payments/', include('payments.urls')),
     path('api/downloads/', include('downloads.urls')),
     # Convenience redirects
-    path('', include('photos.urls')),  # Root goes to photo batches
+    path('', TemplateView.as_view(template_name='base/base.html')),
     path('photos/', include('photos.urls')),
     path('payments/', include('payments.urls')),
     path('downloads/', include('downloads.urls')),

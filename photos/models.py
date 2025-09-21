@@ -173,3 +173,4 @@ class Photo(models.Model):
         # Combine with original image
         watermarked = Image.alpha_composite(img, overlay)
         return watermarked.convert('RGB')
+    

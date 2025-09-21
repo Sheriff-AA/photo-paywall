@@ -165,6 +165,13 @@ REST_FRAMEWORK = {
     ],
 }
 
+# Cloudinary settings
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config("CLOUDINARY_CLOUD_NAME"),
+    'API_KEY': config("CLOUDINARY_API_KEY"),
+    'API_SECRET': config("CLOUDINARY_API_SECRET"),
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -190,6 +197,12 @@ STATICFILES_DIRS = [
     STATICFILES_BASE_DIR
 ]
 STATIC_ROOT = BASE_DIR / 'local-cdn'
+
+# Stripe settings
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51QykbB04GpmzEowzmcfZBYAZv3ZbhJkwU6u1G4A7Ds76gStuU7lVnQr8JOK0yu07eQCmIvW9TYfuNgnDKmF2IcWz00AR9aWIAb'
+STRIPE_SECRET_KEY = 'sk_test_51QykbB04GpmzEowzcvL8edsKemmheiyfqZLTvLm4dkd8fbf3PKOySVADyyFHVsh1Ljq3vZOyTRTgCWqLiJ0ILvNb00JChNIjl6'
+STRIPE_WEBHOOK_SECRET = 'whsec_...'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
