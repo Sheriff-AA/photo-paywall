@@ -1,19 +1,20 @@
-# .github/workflows/mirror.yml
-name: 'mirror'
+name: Mirror to Second Repo
+
 on:
   push:
     branches:
-        - __mirror
-  workflow_dispatch:
+      - main
 
 jobs:
   mirror:
     runs-on: ubuntu-latest
-    name: mirror
     steps:
-      - name: mirror
-        id: mirror
-        uses: bridgelightcloud/github-mirror-action@v1
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          origin: 'github.com/dotnet4to/dotnetlenses.git'
-          GITHUB_TOKEN: ${{ secrets.MIRROR_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Mirror to second repository
+        run: |
+          git remote add mirror https://x-access-token:${{ secrets.MIRROR_TOKEN }}@github.com/dotnet4to/dotnetlenses.git
+          git push mirror --mirror
