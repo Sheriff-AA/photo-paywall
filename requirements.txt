@@ -26,6 +26,7 @@ python-dateutil==2.9.0.post0
 python-decouple==3.8
 redis==6.4.0
 requests==2.32.5
+gunicorn
 six==1.17.0
 sqlparse==0.5.3
 stripe==12.5.1
