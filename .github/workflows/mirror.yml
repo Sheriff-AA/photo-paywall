@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: '0 3 * * *'
   workflow_dispatch:
 jobs:
   mirror:
@@ -13,8 +11,7 @@ jobs:
     name: mirror
     steps:
       - name: Configure Git
-        run: |
-          git config --global --add safe.directory /github/workspace
+        run: git config --global --add safe.directory /github/workspace
       - name: mirror
         id: mirror
         uses: bridgelightcloud/github-mirror-action@v1
