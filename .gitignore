@@ -6,7 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-static/dist/output.css
+# static/dist/output.css
 local-cdn/
 package-lock.json
 
@@ -18,7 +18,7 @@ jspm_packacges/
 .Python
 build/
 develop-eggs/
-dist/
+# dist/
 # downloads/
 eggs/
 .eggs/
