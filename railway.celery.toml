@@ -1,0 +1,5 @@
+[build]
+builder = "dockerfile"
+
+[deploy]
+startCommand = "celery -A photobiz worker --loglevel=info --pool=solo"

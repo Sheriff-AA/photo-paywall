@@ -424,8 +424,3 @@ LOGGING = {
 # celery -A photobiz worker --loglevel=info --pool=solo
 
 
-
-# expired download batch
-# http://localhost:8000/downloads/64b17a9e-fc9c-4eb9-a382-04bd6962c991/
-
-
