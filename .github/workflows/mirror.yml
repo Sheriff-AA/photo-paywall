@@ -4,17 +4,23 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 3 * * *'
   workflow_dispatch:
+
 jobs:
   mirror:
     runs-on: ubuntu-latest
     name: mirror
     steps:
-      - name: Configure Git
-        run: git config --global --add safe.directory /github/workspace
-      - name: mirror
-        id: mirror
-        uses: bridgelightcloud/github-mirror-action@v1
+      - name: Checkout source repository
+        uses: actions/checkout@v4
         with:
-          origin: 'dotnet4to/dotnetlenses'
-          GITHUB_TOKEN: ${{ secrets.MIRROR_TOKEN }}
+          fetch-depth: 0
+          
+      - name: Push to mirror repository
+        env:
+          MIRROR_TOKEN: ${{ secrets.MIRROR_TOKEN }}
+        run: |
+          git remote add mirror https://x-access-token:${MIRROR_TOKEN}@github.com/dotnet4to/dotnetlenses.git
+          git push mirror --mirror --force
