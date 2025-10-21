@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_(sh=7j2l5dkpt+#x!toi#f1dx-3(rw^d_vsd7@553+c$itp&4'
+SECRET_KEY = config('DJANGO_SECRET_KEY', cast=str)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -60,13 +60,13 @@ if DEBUG:
         "localhost"
     ]
 
+SITE_URL = 'http://localhost:8000'
 
-ALLOWED_HOSTS = []
-
-
+AUTH_USER_MODEL = 'users.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",  # before django.contrib.admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,9 +78,20 @@ INSTALLED_APPS = [
     'rest_framework',
     'cloudinary_storage',
     'cloudinary',
+    'celery',
+    'redis',
+    "unfold.contrib.filters",  # optional, if special filters are needed
+    "unfold.contrib.forms",  # optional, if special form elements are needed
+    "unfold.contrib.inlines",  # optional, if special inlines are needed
+    "unfold.contrib.import_export",  # optional, if django-import-export package is used
+    "unfold.contrib.guardian",  # optional, if django-guardian package is used
+    "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
+    "unfold.contrib.location_field",  # optional, if django-location-field package is used
+    "unfold.contrib.constance",  # optional, if django-constance package is used
     
     # Local
     'users',
+    'apiservice',
     'photos',
     'payments',
     'downloads',
@@ -126,15 +137,15 @@ DATABASES = {
     }
 }
 
-DATABASE_URL = config("DATABASE_URL", cast=str)
+# DATABASE_URL = config("DATABASE_URL", cast=str)
 
-if DATABASE_URL is not None:
-    DATABASES = {
-    'default': dj_database_url.config(
-        default=DATABASE_URL,
-        conn_health_checks=True
-        )
-}
+# if DATABASE_URL is not None:
+#     DATABASES = {
+#     'default': dj_database_url.config(
+#         default=DATABASE_URL,
+#         conn_health_checks=True
+#         )
+# }
 
 
 # Password validation
@@ -198,13 +209,223 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR / 'local-cdn'
 
+LOGS_DIR = BASE_DIR / 'logs'
+LOGS_DIR.mkdir(exist_ok=True)
+
 # Stripe settings
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51QykbB04GpmzEowzmcfZBYAZv3ZbhJkwU6u1G4A7Ds76gStuU7lVnQr8JOK0yu07eQCmIvW9TYfuNgnDKmF2IcWz00AR9aWIAb'
-STRIPE_SECRET_KEY = 'sk_test_51QykbB04GpmzEowzcvL8edsKemmheiyfqZLTvLm4dkd8fbf3PKOySVADyyFHVsh1Ljq3vZOyTRTgCWqLiJ0ILvNb00JChNIjl6'
-STRIPE_WEBHOOK_SECRET = 'whsec_...'
+STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY", cast=str)
+STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY", cast=str)
+STRIPE_WEBHOOK_SECRET = config("STRIPE_WEBHOOK_SECRET", cast=str)
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Celery Configuration
+CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://127.0.0.1:6379/0')
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND', default='redis://127.0.0.1:6379/0')
+
+
+# Optional but helpful for debugging
+# CELERY_TASK_ALWAYS_EAGER = False  # Set True to run tasks synchronously (no queue)
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes
+
+
+# For production with Redis Sentinel
+# CELERY_BROKER_URL = 'sentinel://localhost:26379;sentinel://localhost:26380'
+# CELERY_BROKER_TRANSPORT_OPTIONS = {
+#     'master_name': 'mymaster',
+#     'sentinel_kwargs': {'password': 'your-sentinel-password'},
+# }
+
+# Cache configuration (using Redis)
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'CONNECTION_POOL_KWARGS': {
+                'max_connections': 50,
+                'retry_on_timeout': True,
+            },
+            'SOCKET_CONNECT_TIMEOUT': 5,
+            'SOCKET_TIMEOUT': 5,
+        },
+        'KEY_PREFIX': 'photo_gallery',
+        'TIMEOUT': 3600,  # 1 hour default
+    }
+}
+
+# Cloudinary optimizations
+CLOUDINARY = {
+    'cloud_name': config('CLOUDINARY_CLOUD_NAME'),
+    'api_key': config('CLOUDINARY_API_KEY'),
+    'api_secret': config('CLOUDINARY_API_SECRET'),
+    'secure': True,
+    'api_proxy': None,  # Set if behind proxy
+}
+
+# File upload settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400  # 25MB
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000  # Prevent DOS
+
+from django.templatetags.static import static
+
+UNFOLD = {
+    "SITE_HEADER": "dotNet Admin",
+    "SITE_TITLE": "dotNetLenses Admin",
+    "BRAND_COLOR": "#f97316",  # Orange
+    "STYLES": [
+        lambda request: static("css/admin_custom.css"),
+    ],
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": "Navigation",
+                "separator": True,
+                # "collapsible": True,
+                "items": [
+                    {
+                        "title": "Dashboard",
+                        "icon": "dashboard",
+                        "link": "/admin/",
+                    },
+                    {
+                        "title": "Batches",
+                        "icon": "folder",
+                        "link": "/admin/photos/batch/",
+                    },
+                    {
+                        "title": "Photos",
+                        "icon": "image",
+                        "link": "/admin/photos/photo/",
+                    },
+                    {
+                        "title": "Purchases",
+                        "icon": "attach_money",
+                        "link": "/admin/payments/purchase/",
+                    },
+                    {
+                        "title": "DownloadTokens",
+                        "icon": "download",
+                        "link": "/admin/payments/downloadtoken/",
+                    },
+                     {
+                        "title": "Users",
+                        "icon": "download",
+                        "link": "/admin/users/contact/",
+                    },
+                     {
+                        "title": "Contacts",
+                        "icon": "download",
+                        "link": "/admin/users/customuser/",
+                    },
+                ],
+            },
+        ],
+    },
+    "COLORS": {
+        "primary": {
+            "50": "#fff7ed",
+            "100": "#ffedd5",
+            "200": "#fed7aa",
+            "300": "#fdba74",
+            "400": "#fb923c",
+            "500": "#f97316",  # Orange - primary
+            "600": "#ea580c",
+            "700": "#c2410c",
+            "800": "#9a3412",
+            "900": "#7c2d12",
+            "950": "#431407",
+        },
+        "secondary": {
+            "50": "#fef3c7",
+            "100": "#fcd34d",
+            "200": "#fbbf24",  # Amber
+            "300": "#f59e0b",
+            "400": "#d97706",
+            "500": "#b45309",
+            "600": "#92400e",
+            "700": "#78350f",
+            "800": "#451a03",
+            "900": "#3f2817",
+            "950": "#1f1f1f",
+        },
+    },
+}
+
+# Logging configuration for production
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {message}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'file': {
+#             'level': 'INFO',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': 'logs/photo_processing.log',
+#             'maxBytes': 10485760,  # 10MB
+#             'backupCount': 5,
+#             'formatter': 'verbose',
+#         },
+#         'console': {
+#             'level': 'INFO',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose',
+#         },
+#     },
+#     'loggers': {
+#         'photos': {
+#             'handlers': ['file', 'console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#         'celery': {
+#             'handlers': ['file', 'console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#     },
+# }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    },
+}
+
+
+
+# backspace - ACCESS
+# stripe listen --forward-to localhost:8000/payments/webhook/
+# celery -A photobiz worker --loglevel=info --pool=solo
+
+
+
+# expired download batch
+# http://localhost:8000/downloads/64b17a9e-fc9c-4eb9-a382-04bd6962c991/
+
+

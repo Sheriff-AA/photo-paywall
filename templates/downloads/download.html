@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Download {{ token.batch_title }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">📸 Your Photos Are Ready!</h3>
+            </div>
+            <div class="card-body text-center">
+                <h4>{{ token.batch_title }}</h4>
+                
+                <div class="alert alert-info">
+                    <strong>Download Information:</strong><br>
+                    Downloads remaining: <strong>{{ token.max_downloads|add:"-"|add:token.download_count }}</strong> of {{ token.max_downloads }}<br>
+                    Expires: <strong>{{ token.expires_at|date:"F d, Y g:i A" }}</strong>
+                </div>
+
+                <div class="my-4">
+                    <form action="/api/downloads/initiate/{{ token.token }}" method="POST" style="display:inline;">
+                        <button type="submit" id="download-btn" class="btn btn-success btn-lg" data-token="{{ token.token }}">
+                            📥 Download Photos Now
+                        </button>
+                    </form>
+                </div>
+
+                <div class="mt-4 p-3 bg-light rounded text-start">
+                    <h6>Download Instructions:</h6>
+                    <ul class="mb-0">
+                        <li>Click the download button above</li>
+                        <li>Your photos will be downloaded as a ZIP file</li>
+                        <li>Extract the ZIP file to access your photos</li>
+                        <li>Keep this link safe - you have {{ token.max_downloads|add:"-"|add:token.download_count }} downloads remaining</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <p class="text-muted">
+                Need help? Contact us at support@example.com
+            </p>
+            <a href="/" class="btn btn-outline-primary">Browse More Collections</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const downloadBtn = document.getElementById('download-btn');
+        const token = downloadBtn.dataset.token; // Get token from data attribute
+        
+        downloadBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            // Disable button
+            downloadBtn.disabled = true;
+            downloadBtn.textContent = 'Preparing download...';
+            
+            try {
+                // Call the API to initiate download
+                const response = await fetch(`/api/downloads/initiate/${token}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Redirect to download URL
+                    window.location.href = data.download_url;
+                    
+                    // Re-enable button after a delay
+                    setTimeout(() => {
+                        downloadBtn.disabled = false;
+                        downloadBtn.textContent = 'Download';
+                    }, 3000);
+                    
+                    // Optionally show success message
+                    showMessage(`Success! Downloads remaining: ${data.downloads_remaining}`, 'success');
+                } else {
+                    // Handle errors
+                    showMessage(data.error || 'Download failed', 'error');
+                    downloadBtn.disabled = false;
+                    downloadBtn.textContent = 'Try Again';
+                }
+                
+            } catch (error) {
+                console.error('Download error:', error);
+                showMessage('Download temporarily unavailable', 'error');
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Try Again';
+            }
+        });
+    });
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Helper to show messages
+    function showMessage(message, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `alert alert-${type}`;
+        messageDiv.textContent = message;
+        document.querySelector('.container').prepend(messageDiv);
+        
+        setTimeout(() => messageDiv.remove(), 5000);
+    }
+</script>
+{% endblock %}

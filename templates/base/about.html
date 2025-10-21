@@ -1,0 +1,166 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}About Us - DotNetLenses Photography{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative h-[60vh] flex items-center justify-center overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=1920" 
+         alt="Photographer" 
+         class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/60 to-gray-950"></div>
+    
+    <div class="relative z-10 text-center px-4">
+        <h1 class="font-['Playfair_Display'] text-5xl sm:text-6xl md:text-7xl font-black mb-4">
+            <span class="bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
+                About Us
+            </span>
+        </h1>
+        <p class="text-gray-200 text-xl sm:text-2xl max-w-2xl mx-auto">
+            Capturing life's precious moments since 2015
+        </p>
+    </div>
+</section>
+
+<!-- Story Section -->
+<section class="py-20 bg-gray-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="font-['Playfair_Display'] text-4xl sm:text-5xl font-bold mb-6">
+                    Our <span class="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Story</span>
+                </h2>
+                <div class="space-y-4 text-gray-300 text-lg">
+                    <p>
+                        DotNetLenses began with a simple passion: capturing the beauty and emotion of life's most important moments. 
+                        What started as a weekend hobby has grown into a full-service photography business trusted by hundreds of clients.
+                    </p>
+                    <p>
+                        We believe that every event tells a unique story, and our mission is to preserve those stories through 
+                        stunning, high-quality photographs that you'll treasure for a lifetime.
+                    </p>
+                    <p>
+                        From intimate weddings to large corporate events, we approach each project with the same dedication, 
+                        creativity, and attention to detail that has become our signature.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="relative">
+                <div class="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800" 
+                         alt="Our Team" 
+                         class="w-full h-full object-cover">
+                </div>
+                <div class="absolute -bottom-6 -left-6 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 shadow-xl max-w-xs">
+                    <p class="text-white text-4xl font-bold mb-1">500+</p>
+                    <p class="text-white/90">Events Covered</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-20 bg-gradient-to-br from-gray-900 to-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center p-6 bg-gray-900/50 rounded-xl border border-gray-800">
+                <div class="text-5xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent mb-2">
+                    500+
+                </div>
+                <p class="text-gray-400 font-medium">Events Covered</p>
+            </div>
+            <div class="text-center p-6 bg-gray-900/50 rounded-xl border border-gray-800">
+                <div class="text-5xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent mb-2">
+                    50K+
+                </div>
+                <p class="text-gray-400 font-medium">Photos Taken</p>
+            </div>
+            <div class="text-center p-6 bg-gray-900/50 rounded-xl border border-gray-800">
+                <div class="text-5xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent mb-2">
+                    450+
+                </div>
+                <p class="text-gray-400 font-medium">Happy Clients</p>
+            </div>
+            <div class="text-center p-6 bg-gray-900/50 rounded-xl border border-gray-800">
+                <div class="text-5xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent mb-2">
+                    9+
+                </div>
+                <p class="text-gray-400 font-medium">Years Experience</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-20 bg-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="font-['Playfair_Display'] text-4xl sm:text-5xl font-bold mb-4">
+                Our <span class="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Values</span>
+            </h2>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                The principles that guide every shot we take
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 hover:border-amber-500/50 transition-all duration-300">
+                <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-3">Authenticity</h3>
+                <p class="text-gray-400">
+                    We capture genuine emotions and real moments, not staged perfection. Your photos should tell your authentic story.
+                </p>
+            </div>
+            
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 hover:border-amber-500/50 transition-all duration-300">
+                <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-3">Excellence</h3>
+                <p class="text-gray-400">
+                    We're committed to delivering the highest quality in every aspect, from shooting to editing to final delivery.
+                </p>
+            </div>
+            
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-8 hover:border-amber-500/50 transition-all duration-300">
+                <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 000-6.364 4.5 4.5 0 00-6.364 0L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-3">Passion</h3>
+                <p class="text-gray-400">
+                    Photography isn't just our job—it's our passion. We love what we do, and it shows in every frame we capture.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-amber-500 via-orange-600 to-red-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="font-['Playfair_Display'] text-4xl sm:text-5xl font-bold text-white mb-6">
+            Let's Capture Your Story Together
+        </h2>
+        <p class="text-white/90 text-lg sm:text-xl mb-8">
+            Ready to preserve your special moments? Get in touch with us today.
+        </p>
+        <a href="{% url 'contact' %}" 
+           class="inline-block bg-white text-orange-600 px-10 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+            Contact Us
+        </a>
+    </div>
+</section>
+{% endblock %}
+

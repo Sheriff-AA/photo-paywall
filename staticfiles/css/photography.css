@@ -1,0 +1,891 @@
+/* ===========================================
+   LensStory Photography - Main Stylesheet
+   =========================================== */
+
+/* Font Imports (already in base.html, but here for reference) */
+/* Playfair Display for headings */
+/* Inter for body text */
+
+/* ===========================================
+   Global Styles & Animations
+   =========================================== */
+
+* {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Grid Pattern for Backgrounds */
+.grid-pattern {
+    background-image: 
+        linear-gradient(rgba(251, 191, 36, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(251, 191, 36, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    width: 100%;
+    height: 100%;
+}
+
+/* ===========================================
+   Navigation Styles
+   =========================================== */
+
+nav {
+    transition: all 0.3s ease;
+}
+
+.nav-link {
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, #fbbf24, #f97316);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* ===========================================
+   Hero Section Animations
+   =========================================== */
+
+.hero-slider {
+    animation: subtleZoom 20s ease-in-out infinite;
+}
+
+@keyframes subtleZoom {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.hero-slide {
+    transition: opacity 1.5s ease-in-out;
+}
+
+.hero-title {
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-subtitle {
+    animation: fadeInUp 1.2s ease-out;
+}
+
+.cta-button {
+    animation: fadeInUp 1.4s ease-out;
+}
+
+.cta-button-outline {
+    animation: fadeInUp 1.4s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scroll-indicator {
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+/* ===========================================
+   Collection Cards
+   =========================================== */
+
+.collection-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.collection-card:hover {
+    transform: translateY(-8px);
+}
+
+.collection-item {
+    transition: transform 0.3s ease;
+}
+
+.collection-item:hover {
+    transform: translateY(-4px);
+}
+
+.section-title {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ===========================================
+   Filter Buttons
+   =========================================== */
+
+.filter-btn {
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
+}
+
+.filter-btn.active {
+    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
+}
+
+/* ===========================================
+   Gallery Grid
+   =========================================== */
+
+.gallery-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ===========================================
+   Lightbox Styles
+   =========================================== */
+
+.lightbox {
+    animation: fadeIn 0.3s ease;
+}
+
+.lightbox img {
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===========================================
+   Responsive Image Handling
+   =========================================== */
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Prevent layout shift during image loading */
+.aspect-square {
+    aspect-ratio: 1 / 1;
+}
+
+.aspect-\[3\/4\] {
+    aspect-ratio: 3 / 4;
+}
+
+.aspect-\[4\/5\] {
+    aspect-ratio: 4 / 5;
+}
+
+/* ===========================================
+   Loading States
+   =========================================== */
+
+.loading-skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ===========================================
+   Gradient Text Effects
+   =========================================== */
+
+.gradient-text {
+    background: linear-gradient(to right, #fbbf24, #f97316, #ef4444);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===========================================
+   Smooth Scrollbar (Webkit browsers)
+   =========================================== */
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111827;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #fbbf24, #f97316);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #f59e0b, #ea580c);
+}
+
+/* ===========================================
+   Utility Classes
+   =========================================== */
+
+.backdrop-blur-custom {
+    backdrop-filter: blur(12px);
+}
+
+.text-shadow {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.box-shadow-glow {
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ===========================================
+   Print Styles
+   =========================================== */
+
+@media print {
+    nav,
+    footer,
+    .cta-button,
+    .filter-btn {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* ===========================================
+   Mobile Optimizations
+   =========================================== */
+
+@media (max-width: 768px) {
+    /* Reduce animation complexity on mobile */
+    .hero-slider {
+        animation: none;
+    }
+    
+    /* Optimize touch targets */
+    .collection-card,
+    .collection-item,
+    .gallery-item {
+        min-height: 44px;
+    }
+    
+    /* Better mobile spacing */
+    section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* ===========================================
+   Accessibility Enhancements
+   =========================================== */
+
+/* Focus styles */
+*:focus-visible {
+    outline: 2px solid #fbbf24;
+    outline-offset: 4px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .nav-link,
+    .cta-button,
+    .filter-btn {
+        border: 2px solid currentColor;
+    }
+}
+
+/* ===========================================
+   Custom Animations
+   =========================================== */
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Apply entrance animations to elements with data attribute */
+[data-animate="slide-left"] {
+    animation: slideInFromLeft 0.6s ease-out;
+}
+
+[data-animate="slide-right"] {
+    animation: slideInFromRight 0.6s ease-out;
+}
+
+[data-animate="fade"] {
+    animation: fadeIn 0.8s ease-out;
+}
+
+[data-animate="fade-up"] {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* ===========================================
+   Modal Styles
+   =========================================== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9998;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-container {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    animation: slideUpModal 0.4s ease;
+}
+
+.modal-content {
+    background: #111827;
+    border-radius: 1rem;
+    border: 1px solid #374151;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    /* justify-center; */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    padding: 2rem 2rem 1rem;
+    border-bottom: 1px solid #374151;
+}
+
+.modal-body {
+    padding: 2rem;
+    max-height: calc(90vh - 200px);
+    overflow-y: auto;
+}
+
+@keyframes slideUpModal {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Form Input Styles */
+.form-input:focus {
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+}
+
+/* ===========================================
+   Success/Error/Cancel Icon Animations
+   =========================================== */
+
+.success-checkmark {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.check-icon {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    border-radius: 50%;
+    box-sizing: content-box;
+    border: 4px solid #4ade80;
+}
+
+.check-icon::before {
+    top: 3px;
+    left: -2px;
+    width: 30px;
+    transform-origin: 100% 50%;
+    border-radius: 100px 0 0 100px;
+}
+
+.check-icon::after {
+    top: 0;
+    left: 30px;
+    width: 60px;
+    transform-origin: 0 50%;
+    border-radius: 0 100px 100px 0;
+    animation: rotate-circle 4.25s ease-in;
+}
+
+.icon-line {
+    height: 5px;
+    background-color: #4ade80;
+    display: block;
+    border-radius: 2px;
+    position: absolute;
+    z-index: 10;
+}
+
+.icon-line.line-tip {
+    top: 56px;
+    left: 21px;
+    width: 25px;
+    transform: rotate(45deg);
+    animation: icon-line-tip 0.75s;
+}
+
+.icon-line.line-long {
+    top: 48px;
+    right: 13px;
+    width: 47px;
+    transform: rotate(-45deg);
+    animation: icon-line-long 0.75s;
+}
+
+.icon-circle {
+    top: -4px;
+    left: -4px;
+    z-index: 10;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    position: absolute;
+    box-sizing: content-box;
+    border: 4px solid rgba(74, 222, 128, 0.3);
+}
+
+.icon-fix {
+    top: 12px;
+    width: 8px;
+    left: 34px;
+    z-index: 1;
+    height: 105px;
+    position: absolute;
+    transform: rotate(-45deg);
+    background-color: #111827;
+}
+
+@keyframes icon-line-tip {
+    0% {
+        width: 0;
+        left: 1px;
+        top: 28px;
+    }
+    54% {
+        width: 0;
+        left: 1px;
+        top: 28px;
+    }
+    70% {
+        width: 50px;
+        left: -8px;
+        top: 42px;
+    }
+    84% {
+        width: 17px;
+        left: 21px;
+        top: 56px;
+    }
+    100% {
+        width: 25px;
+        left: 21px;
+        top: 56px;
+    }
+}
+
+@keyframes icon-line-long {
+    0% {
+        width: 0;
+        right: 46px;
+        top: 54px;
+    }
+    65% {
+        width: 0;
+        right: 46px;
+        top: 54px;
+    }
+    84% {
+        width: 55px;
+        right: 0;
+        top: 35px;
+    }
+    100% {
+        width: 47px;
+        right: 13px;
+        top: 48px;
+    }
+}
+
+/* Error and Cancel Icons */
+.error-icon-container,
+.cancel-icon-container,
+.expired-icon-container {
+    animation: pulse 2s infinite;
+}
+
+.error-icon,
+.cancel-icon,
+.expired-icon {
+    animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===========================================
+   Carousel Styles
+   =========================================== */
+
+.carousel-wrapper {
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-out;
+}
+
+.carousel-slide {
+    min-width: 100%;
+}
+
+.carousel-nav-btn {
+    transition: all 0.3s ease;
+}
+
+.carousel-nav-btn:hover {
+    transform: scale(1.1);
+}
+
+.carousel-nav-btn:active {
+    transform: scale(0.95);
+}
+
+/* Carousel Dots */
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    background: linear-gradient(to right, #fbbf24, #f97316);
+    width: 32px;
+    border-radius: 6px;
+}
+
+.carousel-dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* ===========================================
+   Gallery Grid Styles
+   =========================================== */
+
+.gallery-grid {
+    animation: fadeIn 0.6s ease;
+}
+
+.gallery-grid-item {
+    transition: all 0.3s ease;
+}
+
+.gallery-grid-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(251, 191, 36, 0.2);
+}
+
+.gallery-filter-btn {
+    cursor: pointer;
+}
+
+.gallery-filter-btn.active {
+    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
+}
+
+/* Gallery item hide/show animations */
+.gallery-grid-item.hiding {
+    animation: fadeOutScale 0.3s ease forwards;
+}
+
+.gallery-grid-item.showing {
+    animation: fadeInScale 0.3s ease forwards;
+}
+
+@keyframes fadeOutScale {
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===========================================
+   Download Page Specific Styles
+   =========================================== */
+
+.download-photo-card {
+    transition: all 0.3s ease;
+}
+
+.download-photo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.photo-checkbox {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.photo-checkbox:checked {
+    background: linear-gradient(to right, #fbbf24, #f97316);
+    border-color: #fbbf24;
+}
+
+/* ===========================================
+   FAQ Accordion Styles
+   =========================================== */
+
+.faq-item {
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.faq-question svg {
+    transition: transform 0.3s ease;
+}
+
+.faq-question.active svg {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-answer.active {
+    max-height: 500px;
+}
+
+/* ===========================================
+   Responsive Adjustments
+   =========================================== */
+
+@media (max-width: 768px) {
+    .modal-container {
+        max-width: 100%;
+    }
+    
+    .modal-header,
+    .modal-body {
+        padding: 1.5rem;
+    }
+    
+    .carousel-nav-btn {
+        padding: 0.5rem;
+    }
+    
+    .carousel-nav-btn svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    
+    .success-checkmark,
+    .check-icon {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 640px) {
+    .gallery-grid {
+        gap: 0.5rem;
+    }
+}
+
+/* ===========================================
+   Print Styles for Downloads Page
+   =========================================== */
+
+@media print {
+    .download-photo-card {
+        page-break-inside: avoid;
+    }
+    
+    .photo-checkbox,
+    button,
+    .carousel-nav-btn {
+        display: none !important;
+    }
+}

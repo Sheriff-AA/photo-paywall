@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DownloadToken
+from payments.models import DownloadToken
 
 class DownloadTokenSerializer(serializers.ModelSerializer):
     is_valid = serializers.SerializerMethodField()

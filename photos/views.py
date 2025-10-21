@@ -1,26 +1,33 @@
-from rest_framework import generics
-from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
-from rest_framework.permissions import AllowAny
+from django.views.generic import ListView, DetailView
 from .models import Batch
-from .serializers import BatchListSerializer, BatchDetailSerializer
 
-class BatchListView(generics.ListAPIView):
-    queryset = Batch.objects.all()
-    serializer_class = BatchListSerializer
-    permission_classes = [AllowAny]
-    renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
+
+class BatchListView(ListView):
+    """
+    Display list of all batches
+    """
+    model = Batch
     template_name = 'photos/batch_list.html'
+    context_object_name = 'batches'
     
-    def get_context_data(self, **kwargs):
-        return {'batches': self.get_queryset()}
+    # Optional: Add ordering, filtering, pagination
+    ordering = ['-created_at']  # If you have a created_at field
+    paginate_by = 12  # Optional: paginate results
 
-class BatchDetailView(generics.RetrieveAPIView):
-    queryset = Batch.objects.all()
-    serializer_class = BatchDetailSerializer
-    permission_classes = [AllowAny]
-    renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
+
+class BatchDetailView(DetailView):
+    """
+    Display details of a single batch
+    """
+    model = Batch
     template_name = 'photos/batch_detail.html'
+    context_object_name = 'batch'
     
+    # Optional: Add related data to context
     def get_context_data(self, **kwargs):
-        return {'batch': self.get_object()}
-    
+        context = super().get_context_data(**kwargs)
+        # Example: Add any additional context you need
+        # context['related_batches'] = Batch.objects.exclude(pk=self.object.pk)[:4]
+        return context
+
+

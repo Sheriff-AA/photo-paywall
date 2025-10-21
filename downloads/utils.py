@@ -1,7 +1,8 @@
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
-from .models import DownloadToken
+
+from payments.models import DownloadToken
 
 def send_download_email(purchase):
     """Send download email to customer"""

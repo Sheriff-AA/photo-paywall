@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Download Expired - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="alert alert-warning text-center py-5">
+            <h1 class="alert-heading">⏰ Download Link Expired</h1>
+            <hr>
+            <p class="lead">This download link has expired or exceeded the maximum number of downloads.</p>
+            
+            {% if token %}
+            <div class="mt-4">
+                <p><strong>Collection:</strong> {{ token.batch_title }}</p>
+                <p><strong>Downloads used:</strong> {{ token.download_count }} of {{ token.max_downloads }}</p>
+                <p><strong>Expired:</strong> {{ token.expires_at|date:"F d, Y g:i A" }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Need Help?</h5>
+                <p>If you believe this is an error or need to re-download your photos, please contact us with your purchase information.</p>
+                
+                <div class="d-flex gap-2 justify-content-center">
+                    <a href="mailto:support@example.com" class="btn btn-primary">Contact Support</a>
+                    <a href="/" class="btn btn-outline-primary">Browse Collections</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

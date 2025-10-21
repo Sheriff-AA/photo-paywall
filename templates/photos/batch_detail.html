@@ -1,0 +1,330 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ collection.title }} - DotNetLenses Photography{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Lightbox will be handled by JS */
+    .lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 9999;
+    }
+    .lightbox.active {
+        display: flex;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% if batch %}
+<!-- Hero Section with Main Image -->
+<section class="relative h-[50vh] sm:h-[60vh] lg:h-[70vh] overflow-hidden">
+    {% if batch.preview_image_url %}
+        <img src="{{ batch.preview_image_url }}" 
+             alt="{{ batch.title }}" 
+             class="w-full h-full object-cover">
+    {% else %}
+        <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+            <svg class="w-32 h-32 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+        </div>
+    {% endif %}
+    <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/70 to-transparent"></div>
+    
+    <!-- Back Button -->
+    <div class="absolute top-4 left-4 z-10">
+        <a href="{% url 'photos:batch-list' %}" 
+           class="inline-flex items-center space-x-2 bg-gray-900/80 backdrop-blur-sm text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            <span>Back to Collections</span>
+        </a>
+    </div>
+</section>
+
+<!-- Collection Info & Purchase Section -->
+<section class="bg-gray-950 -mt-20 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gray-900 rounded-2xl border border-gray-800 p-6 sm:p-8 lg:p-10 shadow-2xl">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Info -->
+                <div class="lg:col-span-2">
+                    <!-- Category Badge -->
+                    {% if batch.category %}
+                    <span class="inline-block px-4 py-1 rounded-full text-sm font-semibold text-white mb-4
+                        {% if collection.category == 'wedding' %}bg-pink-500
+                        {% elif collection.category == 'corporate' %}bg-blue-500
+                        {% elif collection.category == 'celebration' %}bg-purple-500
+                        {% else %}bg-amber-500{% endif %}">
+                        <!-- {{ collection.get_category_display }} -->
+                          corpoprate
+                    </span>
+                    {% endif %}
+                    
+                    <h1 class="font-['Playfair_Display'] text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                        {{ batch.title }}
+                    </h1>
+                    
+                    <div class="flex flex-wrap items-center gap-4 sm:gap-6 text-gray-400 mb-6">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>{{ batch.date|date:"F d, Y" }}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>{{ batch.photos.count }} Photo{{ batch.photos.count|pluralize }}</span>
+                        </div>
+                        {% if batch.location %}
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <span>{{ batch.location }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if batch.description %}
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                        {{ batch.description }}
+                    </p>
+                    {% endif %}
+                    
+                    <!-- Features -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <div>
+                                <p class="font-semibold text-gray-200">High Resolution</p>
+                                <p class="text-sm text-gray-400">Download in full quality</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <div>
+                                <p class="font-semibold text-gray-200">Full Rights</p>
+                                <p class="text-sm text-gray-400">Print & share freely</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <div>
+                                <p class="font-semibold text-gray-200">Instant Download</p>
+                                <p class="text-sm text-gray-400">Access immediately</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <div>
+                                <p class="font-semibold text-gray-200">Pro Edited</p>
+                                <p class="text-sm text-gray-400">Color graded & retouched</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Purchase Card -->
+                <div class="lg:col-span-1">
+                    <div class="sticky top-24 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 border border-gray-700">
+                        <div class="text-center mb-6">
+                            <p class="text-gray-400 text-sm mb-2">Collection Price</p>
+                            <p class="text-5xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                                ${{ batch.price }}
+                            </p>
+                        </div>
+                        
+                        <button onclick="openPurchaseModal()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105 mb-4">
+                            Purchase Collection
+                        </button>
+                        
+                        <button class="w-full bg-gray-700 text-gray-200 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors mb-6">
+                            Add to Cart
+                        </button>
+                        
+                        <div class="space-y-3 text-sm text-gray-400">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                                <span>Secure payment processing</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                                <span>Lifetime access guaranteed</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"></path>
+                                </svg>
+                                <span>Email delivery</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Photo Gallery -->
+<section class="py-16 bg-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="font-['Playfair_Display'] text-3xl sm:text-4xl font-bold">
+                Gallery Preview
+            </h2>
+            <p class="text-gray-400">
+                {{ batch.photos.count }} photo{{ batch.photos.count|pluralize }}
+            </p>
+        </div>
+        
+        {% if batch.photos.all %}
+            <!-- Photo Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {% for photo in batch.photos.all %}
+                <div class="gallery-item group cursor-pointer relative aspect-square overflow-hidden rounded-lg bg-gray-900" 
+                     data-image="{{ photo.image.url }}"
+                     onclick="openLightbox({{ forloop.counter0 }} )">
+                    <img src="{{ photo.thumbnail_url|default:photo.thumbnail_url }}" 
+                         alt="Photo {{ forloop.counter }}" 
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                    
+                    <!-- Hover Overlay -->
+                    <div class="absolute inset-0 bg-gray-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                        </svg>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- No Photos State -->
+            <div class="text-center py-20 bg-gray-900 rounded-xl border border-gray-800">
+                <svg class="w-20 h-20 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <h3 class="text-xl font-semibold text-gray-400 mb-2">No Photos Available</h3>
+                <p class="text-gray-500">Photos for this collection are being processed and will be available soon.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+    <button onclick="closeLightbox()" class="absolute top-4 right-4 z-50 text-white hover:text-amber-400 transition-colors">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    
+    <button onclick="previousImage()" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-50 text-white hover:text-amber-400 transition-colors">
+        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+    </button>
+    
+    <button onclick="nextImage()" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-50 text-white hover:text-amber-400 transition-colors">
+        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+    </button>
+    
+    <div class="w-full h-full flex items-center justify-center p-4">
+        <img id="lightboxImage" src="" alt="Lightbox" class="max-w-full max-h-full object-contain">
+    </div>
+    
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-lg">
+        <span id="lightboxCounter">1 / 1</span>
+    </div>
+</div>
+
+<!-- Related Collections -->
+{% if related_collections %}
+<section class="py-16 bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="font-['Playfair_Display'] text-3xl sm:text-4xl font-bold mb-8">
+            You Might Also Like
+        </h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {% for related in related_collections %}
+            <a href="{% url 'collection_detail' related.slug %}" class="group">
+                <div class="relative overflow-hidden rounded-xl aspect-[3/4] mb-4 bg-gray-800">
+                    {% if related.cover_image %}
+                        <img src="{{ related.cover_image.url }}" 
+                             alt="{{ related.title }}" 
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+                            <svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    {% endif %}
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-60"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 class="text-white font-semibold text-lg mb-1">{{ related.title }}</h3>
+                        <p class="text-gray-300 text-sm">{{ related.photo_count }} photos • ${{ related.price }}</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% else %}
+<!-- Collection Not Found -->
+<section class="py-20 bg-gray-950">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-block p-8 bg-gray-900 rounded-full mb-6">
+            <svg class="w-24 h-24 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </div>
+        <h1 class="font-['Playfair_Display'] text-4xl sm:text-5xl font-bold mb-4">
+            Collection Not Found
+        </h1>
+        <p class="text-gray-400 text-lg mb-8">
+            Sorry, we couldn't find the collection you're looking for.
+        </p>
+        <a href="{% url 'photos:batch-list' %}" 
+           class="inline-block bg-gradient-to-r from-amber-500 to-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 transform hover:scale-105">
+            Browse All Collections
+        </a>
+    </div>
+</section>
+{% endif %}
+
+
+{% include 'components/purchase_modal.html' %}
+
+
+{% endblock %}

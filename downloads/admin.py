@@ -1,8 +1,9 @@
+from unfold.admin import ModelAdmin
 from django.contrib import admin
-from .models import DownloadToken
+from payments.models import DownloadToken
 
 @admin.register(DownloadToken)
-class DownloadTokenAdmin(admin.ModelAdmin):
+class DownloadTokenAdmin(ModelAdmin):
     list_display = ['token', 'purchase_email', 'batch_title', 'download_count', 'max_downloads', 'expires_at', 'is_valid_status']
     list_filter = ['expires_at', 'download_count', 'created_at']
     search_fields = ['purchase__email', 'purchase__batch__title', 'token']

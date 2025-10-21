@@ -1,0 +1,144 @@
+{% load static %}
+
+<!-- Purchase Modal -->
+<div id="purchaseModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-content">
+            <!-- Close Button -->
+            <button onclick="closePurchaseModal()" class="modal-close">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2 class="font-['Playfair_Display'] text-3xl sm:text-4xl font-bold mb-2">
+                    Complete Your Purchase
+                </h2>
+                <p class="text-gray-400">Secure checkout for your photo collection</p>
+            </div>
+            
+            <!-- Collection Summary -->
+            <div class="modal-body">
+                <div class="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden">
+                            {% if batch.preview_image_url %}
+                                <img id="modalCollectionImage" 
+                                     src="{{ batch.preview_image_url }}" 
+                                     alt="{{ batch.title }}"
+                                     class="w-full h-full object-cover">
+                            {% endif %}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 id="modalCollectionTitle" class="text-xl font-semibold mb-2 truncate">
+                                {{ batch.title }}
+                            </h3>
+                            <div class="flex items-center space-x-4 text-sm text-gray-400 mb-3">
+                                <span id="modalPhotoCount">{{ batch.photos.count }} photos</span>
+                                <span>•</span>
+                                <span>High Resolution</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Total:</span>
+                                <span id="modalPrice" class="text-3xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                                    ${{ batch.price }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Form -->
+                <form id="purchaseForm" action="{% url 'payments:checkout' %}" method="POST" class="space-y-4">
+                    {% csrf_token %}
+                    <input type="hidden" name="batch_id" value="{{ batch.id }}">
+                    
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Email Address</label>
+                        <input type="email" 
+                               name="email" 
+                               required
+                               placeholder="your@email.com"
+                               class="form-input w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-200 focus:outline-none focus:border-amber-500 transition-colors">
+                        <p class="text-xs text-gray-500 mt-1">Download link will be sent to this email</p>
+                    </div>
+                    
+                    <!-- Name -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">First Name</label>
+                            <input type="text" 
+                                   name="first_name" 
+                                   required
+                                   placeholder="John"
+                                   class="form-input w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-200 focus:outline-none focus:border-amber-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Last Name</label>
+                            <input type="text" 
+                                   name="last_name" 
+                                   required
+                                   placeholder="Doe"
+                                   class="form-input w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-200 focus:outline-none focus:border-amber-500 transition-colors">
+                        </div>
+                    </div>
+                    
+                    <!-- Card Details Placeholder -->
+                    <!-- <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-6 border border-gray-700">
+                        <div class="flex items-center justify-between mb-4">
+                            <label class="block text-sm font-medium">Payment Method</label>
+                            <div class="flex space-x-2">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" class="h-6">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" class="h-6">
+                            </div>
+                        </div>
+                        
+                        <div id="card-element" class="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                             ## Stripe/Payment processor card element goes here
+                            <p class="text-gray-500 text-sm text-center py-3">
+                                Payment processing integration placeholder
+                            </p>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2 mt-4 text-xs text-gray-500">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                            <span>Secured by SSL encryption</span>
+                        </div>
+                    </div> -->
+                    
+                    <!-- Terms Checkbox -->
+                    <div class="flex items-start space-x-3">
+                        <input type="checkbox" 
+                               id="terms" 
+                               name="terms" 
+                               required
+                               class="mt-1 w-4 h-4 bg-gray-800 border-gray-700 rounded focus:ring-amber-500">
+                        <label for="terms" class="text-sm text-gray-400">
+                            I agree to the <a href="#" class="text-amber-400 hover:text-amber-300">Terms of Service</a> and 
+                            <a href="#" class="text-amber-400 hover:text-amber-300">Privacy Policy</a>
+                        </label>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit"
+                            class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-white py-4 rounded-lg font-bold text-lg hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        <span>Complete Secure Payment</span>
+                    </button>
+                    
+                    <p class="text-center text-xs text-gray-500">
+                        You will receive download instructions via email immediately after purchase
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

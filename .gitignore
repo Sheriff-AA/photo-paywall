@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+static/dist/output.css
+local-cdn/
+package-lock.json
+
 node_modules/
 staticfiles/vendors
 jspm_packacges/

@@ -10,8 +10,8 @@ API_SECRET = config("CLOUDINARY_API_SECRET")
 
 def cloudinary_init():
     cloudinary.config( 
-    cloud_name = CLOUDINARY.CLOUD_NAME, 
-    api_key = CLOUDINARY.API_KEY,
-    api_secret = CLOUDINARY.API_SECRET
+    cloud_name = CLOUD_NAME, 
+    api_key = API_KEY,
+    api_secret = API_SECRET
     )
 

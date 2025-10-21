@@ -1,0 +1,108 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Payment Cancelled - {{ block.super }}{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 py-20 px-4">
+    <div class="max-w-2xl w-full">
+        
+        <!-- Cancel Animation Container -->
+        <div class="text-center mb-8">
+            <div class="cancel-icon-container inline-block mb-8">
+                <svg class="w-24 h-24 sm:w-32 sm:h-32 text-gray-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Cancel Message -->
+        <div class="text-center mb-8">
+            <h1 class="font-['Playfair_Display'] text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
+                Payment <span class="text-gray-500">Cancelled</span>
+            </h1>
+            
+            <p class="text-gray-300 text-lg sm:text-xl">
+                You've cancelled the payment process. No charges were made to your account.
+            </p>
+        </div>
+        
+        <!-- Reassurance Message -->
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 sm:p-8 mb-8 shadow-xl">
+            <div class="flex items-start space-x-4">
+                <svg class="w-8 h-8 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-100">Your Collection is Still Here</h3>
+                    <p class="text-gray-400 mb-3">
+                        The photo collection you were interested in is saved and ready whenever you'd like to complete your purchase. 
+                        We understand you might need more time to decide.
+                    </p>
+                    <p class="text-gray-400">
+                        If you have any questions or concerns, our support team is happy to help.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Benefits Reminder -->
+        <div class="bg-gradient-to-r from-amber-500/10 to-orange-600/10 border border-amber-500/30 rounded-xl p-6 mb-8">
+            <h3 class="text-lg font-semibold mb-4 text-amber-300">Why Purchase This Collection?</h3>
+            <ul class="space-y-2 text-gray-300">
+                <li class="flex items-center space-x-3">
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>High-resolution photos (300 DPI) suitable for printing</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Full ownership and usage rights for personal and commercial use</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Lifetime access to your photos</span>
+                </li>
+                <li class="flex items-center space-x-3">
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Download individual photos or the entire collection as ZIP</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+            <a href="javascript:history.back()" 
+               class="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                <span>Return to Collection</span>
+            </a>
+            
+            <a href="{% url 'photos:batch-list' %}" 
+               class="inline-flex items-center justify-center space-x-2 border-2 border-amber-500 text-amber-500 px-8 py-4 rounded-lg font-bold text-lg hover:bg-amber-500 hover:text-white transition-all duration-300">
+                <span>Browse Other Collections</span>
+            </a>
+        </div>
+        
+        <div class="text-center">
+            <a href="{% url 'home' %}" class="text-gray-400 hover:text-amber-400 transition-colors text-sm">
+                ← Return to Home
+            </a>
+        </div>
+        
+    </div>
+</section>
+{% endblock %}
+
+
+<script src="{% static 'js/payment.js' %}"></script>
+

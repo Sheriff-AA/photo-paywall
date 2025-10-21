@@ -9,6 +9,8 @@ class PurchaseSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'batch', 'batch_title', 'payment_status', 'amount', 'created_at']
         read_only_fields = ['id', 'payment_status', 'created_at']
 
+
 class CheckoutSerializer(serializers.Serializer):
     email = serializers.EmailField()
     batch_id = serializers.UUIDField()
+

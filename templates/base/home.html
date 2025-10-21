@@ -1,0 +1,561 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}DotNetLenses Photography - Capturing Life's Beautiful Moments{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative h-screen overflow-hidden">
+    <!-- Hero Background Images (you'll replace these with actual image URLs from your backend) -->
+    <div class="hero-slider absolute inset-0">
+        <div class="hero-slide active absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=1920" 
+                 alt="Photography" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-gray-900/50 to-transparent"></div>
+        </div>
+        <div class="hero-slide absolute inset-0 opacity-0">
+            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=1920" 
+                 alt="Photography" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-gray-900/50 to-transparent"></div>
+        </div>
+        <div class="hero-slide absolute inset-0 opacity-0">
+            <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1920" 
+                 alt="Photography" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-gray-900/50 to-transparent"></div>
+        </div>
+    </div>
+    
+    <!-- Hero Content -->
+    <div class="relative z-10 h-full flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="max-w-3xl">
+                <h1 class="hero-title font-['Playfair_Display'] font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight mb-6">
+                    Every Moment<br>
+                    <span class="bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
+                        Tells a Story
+                    </span>
+                </h1>
+                <p class="hero-subtitle text-gray-300 text-lg sm:text-xl md:text-2xl mb-8 font-light">
+                    Professional event photography that captures the magic of your special moments
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="{% url 'photos:batch-list' %}" 
+                       class="cta-button bg-gradient-to-r from-amber-500 to-orange-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105 text-center">
+                        Browse Collections
+                    </a>
+                    <a href="{% url 'about' %}" 
+                       class="cta-button-outline border-2 border-amber-500 text-amber-500 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-amber-500 hover:text-white transition-all duration-300 text-center">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+        <div class="scroll-indicator animate-bounce">
+            <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<!-- ===============================================
+     ADD THESE SECTIONS TO home.html
+     Place after the hero section and before Featured Collections
+     =============================================== -->
+
+<!-- Past Works Carousel Section -->
+<section class="py-20 bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="font-['Playfair_Display'] text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
+                Our <span class="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Recent Work</span>
+            </h2>
+            <p class="text-gray-400 text-lg">
+                A showcase of our latest event photography
+            </p>
+        </div>
+        
+        <!-- Carousel Container -->
+        <div class="relative">
+            <div class="carousel-wrapper overflow-hidden rounded-2xl">
+                <div id="workCarousel" class="carousel-track flex transition-transform duration-500 ease-out">
+                    
+                    {% if past_works %}
+                        {% for work in past_works %}
+                        <div class="carousel-slide flex-shrink-0 w-full relative">
+                            <div class="aspect-[16/9] sm:aspect-[21/9] relative">
+                                <img src="{{ work.image.url }}" 
+                                     alt="{{ work.title }}"
+                                     class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                                
+                                <!-- Slide Info -->
+                                <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12">
+                                    <div class="max-w-4xl">
+                                        {% if work.category %}
+                                        <span class="inline-block px-4 py-1 rounded-full text-sm font-semibold text-white bg-amber-500 mb-4">
+                                            {{ work.category }}
+                                        </span>
+                                        {% endif %}
+                                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-['Playfair_Display'] font-bold text-white mb-4">
+                                            {{ work.title }}
+                                        </h3>
+                                        <p class="text-gray-200 text-lg mb-6 max-w-2xl">
+                                            {{ work.description|truncatewords:20 }}
+                                        </p>
+                                        {% if work.link %}
+                                        <a href="{{ work.link }}" 
+                                           class="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-lg hover:bg-white/30 transition-colors">
+                                            <span>View Collection</span>
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                            </svg>
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Placeholder slides if no data -->
+                        <div class="carousel-slide flex-shrink-0 w-full relative">
+                            <div class="aspect-[16/9] sm:aspect-[21/9] relative">
+                                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1920" 
+                                     alt="Wedding Photography"
+                                     class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12">
+                                    <span class="inline-block px-4 py-1 rounded-full text-sm font-semibold text-white bg-amber-500 mb-4">Wedding</span>
+                                    <h3 class="text-3xl sm:text-4xl md:text-5xl font-['Playfair_Display'] font-bold text-white mb-4">
+                                        Elegant Summer Wedding
+                                    </h3>
+                                    <p class="text-gray-200 text-lg mb-6 max-w-2xl">
+                                        A beautiful outdoor ceremony captured in golden hour light
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-slide flex-shrink-0 w-full relative">
+                            <div class="aspect-[16/9] sm:aspect-[21/9] relative">
+                                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920" 
+                                     alt="Corporate Event"
+                                     class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12">
+                                    <span class="inline-block px-4 py-1 rounded-full text-sm font-semibold text-white bg-blue-500 mb-4">Corporate</span>
+                                    <h3 class="text-3xl sm:text-4xl md:text-5xl font-['Playfair_Display'] font-bold text-white mb-4">
+                                        Tech Summit 2024
+                                    </h3>
+                                    <p class="text-gray-200 text-lg mb-6 max-w-2xl">
+                                        Professional coverage of industry-leading technology conference
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-slide flex-shrink-0 w-full relative">
+                            <div class="aspect-[16/9] sm:aspect-[21/9] relative">
+                                <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1920" 
+                                     alt="Birthday Celebration"
+                                     class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12">
+                                    <span class="inline-block px-4 py-1 rounded-full text-sm font-semibold text-white bg-purple-500 mb-4">Celebration</span>
+                                    <h3 class="text-3xl sm:text-4xl md:text-5xl font-['Playfair_Display'] font-bold text-white mb-4">
+                                        Milestone Birthday Party
+                                    </h3>
+                                    <p class="text-gray-200 text-lg mb-6 max-w-2xl">
+                                        Capturing joyful moments and unforgettable memories
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                </div>
+            </div>
+            
+            <!-- Carousel Navigation Arrows -->
+            <button id="prevSlide" 
+                    class="carousel-nav-btn absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-colors z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <button id="nextSlide" 
+                    class="carousel-nav-btn absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-colors z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <!-- Carousel Dots -->
+            <div class="flex justify-center mt-6 space-x-2" id="carouselDots">
+                <!-- Dots will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Showcase Section -->
+<section class="py-20 bg-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="font-['Playfair_Display'] text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
+                Photo <span class="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Gallery</span>
+            </h2>
+            <p class="text-gray-400 text-lg mb-8">
+                Explore our favorite captures from various events
+            </p>
+            
+            <!-- Gallery Filter Tags -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8">
+                <button class="gallery-filter-btn active px-5 py-2 rounded-full bg-amber-500 text-white font-medium text-sm transition-all hover:bg-amber-600" 
+                        data-filter="all">
+                    All
+                </button>
+                <button class="gallery-filter-btn px-5 py-2 rounded-full bg-gray-800 text-gray-300 font-medium text-sm transition-all hover:bg-gray-700" 
+                        data-filter="wedding">
+                    Weddings
+                </button>
+                <button class="gallery-filter-btn px-5 py-2 rounded-full bg-gray-800 text-gray-300 font-medium text-sm transition-all hover:bg-gray-700" 
+                        data-filter="corporate">
+                    Corporate
+                </button>
+                <button class="gallery-filter-btn px-5 py-2 rounded-full bg-gray-800 text-gray-300 font-medium text-sm transition-all hover:bg-gray-700" 
+                        data-filter="celebration">
+                    Celebrations
+                </button>
+                <button class="gallery-filter-btn px-5 py-2 rounded-full bg-gray-800 text-gray-300 font-medium text-sm transition-all hover:bg-gray-700" 
+                        data-filter="portrait">
+                    Portraits
+                </button>
+            </div>
+        </div>
+        
+        <!-- Gallery Grid -->
+        <div class="gallery-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            
+            {% if gallery_images %}
+                {% for image in gallery_images %}
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 {% if image.category %}gallery-{{ image.category }}{% endif %}"
+                     data-category="{{ image.category|default:'all' }}"
+                     onclick="openGalleryLightbox({{ forloop.counter0 }})">
+                    
+                    <div class="aspect-square relative">
+                        <img src="{{ image.thumbnail.url|default:image.image.url }}" 
+                             alt="{{ image.title|default:'Gallery Image' }}"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        
+                        <!-- Hover Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-0 left-0 right-0 p-4">
+                                {% if image.title %}
+                                <h4 class="text-white font-semibold mb-1">{{ image.title }}</h4>
+                                {% endif %}
+                                {% if image.category %}
+                                <p class="text-gray-300 text-sm capitalize">{{ image.category }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Zoom Icon -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-full p-3">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Placeholder gallery items if no data -->
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 gallery-wedding" data-category="wedding">
+                    <div class="aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600" 
+                             alt="Wedding Photo"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+                
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 gallery-corporate" data-category="corporate">
+                    <div class="aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" 
+                             alt="Corporate Event"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+                
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 gallery-celebration" data-category="celebration">
+                    <div class="aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600" 
+                             alt="Celebration"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+                
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 gallery-portrait" data-category="portrait">
+                    <div class="aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600" 
+                             alt="Portrait"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+                
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 gallery-wedding" data-category="wedding">
+                    <div class="aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" 
+                             alt="Wedding Detail"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+                
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 gallery-corporate" data-category="corporate">
+                    <div class="aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600" 
+                             alt="Business Meeting"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+                
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 gallery-celebration" data-category="celebration">
+                    <div class="aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600" 
+                             alt="Party"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+                
+                <div class="gallery-grid-item group cursor-pointer relative overflow-hidden rounded-lg bg-gray-900 gallery-portrait" data-category="portrait">
+                    <div class="aspect-square relative">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600" 
+                             alt="Portrait Photography"
+                             class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                </div>
+            {% endif %}
+            
+        </div>
+        
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button class="inline-block bg-gray-800 text-gray-200 px-8 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors">
+                Load More Photos
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Lightbox (separate from collection detail lightbox) -->
+<div id="galleryLightbox" class="lightbox">
+    <button onclick="closeGalleryLightbox()" class="absolute top-4 right-4 z-50 text-white hover:text-amber-400 transition-colors">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    
+    <button onclick="previousGalleryImage()" class="absolute left-4 top-1/2 transform -translate-y-1/2 z-50 text-white hover:text-amber-400 transition-colors">
+        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+    </button>
+    
+    <button onclick="nextGalleryImage()" class="absolute right-4 top-1/2 transform -translate-y-1/2 z-50 text-white hover:text-amber-400 transition-colors">
+        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+    </button>
+    
+    <div class="w-full h-full flex items-center justify-center p-4">
+        <img id="galleryLightboxImage" src="" alt="Gallery Lightbox" class="max-w-full max-h-full object-contain">
+    </div>
+    
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-lg">
+        <span id="galleryLightboxCounter">1 / 1</span>
+    </div>
+</div>
+
+<!-- Featured Collections Section -->
+<section id="about" class="py-20 bg-gradient-to-b from-gray-950 to-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="section-title font-['Playfair_Display'] font-bold text-4xl sm:text-5xl md:text-6xl mb-6">
+                Featured <span class="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Collections</span>
+            </h2>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                Explore our curated selection of breathtaking moments from weddings, corporate events, and special celebrations
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Featured Collection Card 1 -->
+            <div class="collection-card group cursor-pointer">
+                <div class="relative overflow-hidden rounded-xl aspect-[4/5] mb-4">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" 
+                         alt="Wedding Collection" 
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block bg-amber-500 text-white text-xs font-semibold px-3 py-1 rounded-full mb-2">
+                            Wedding
+                        </span>
+                        <h3 class="text-white font-semibold text-xl">Summer Wedding Collection</h3>
+                    </div>
+                </div>
+                <div class="px-2">
+                    <p class="text-gray-400 text-sm mb-2">June 2024 • 150 Photos</p>
+                    <p class="text-amber-400 font-semibold text-lg">$299.00</p>
+                </div>
+            </div>
+            
+            <!-- Featured Collection Card 2 -->
+            <div class="collection-card group cursor-pointer">
+                <div class="relative overflow-hidden rounded-xl aspect-[4/5] mb-4">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600" 
+                         alt="Corporate Event" 
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full mb-2">
+                            Corporate
+                        </span>
+                        <h3 class="text-white font-semibold text-xl">Tech Conference 2024</h3>
+                    </div>
+                </div>
+                <div class="px-2">
+                    <p class="text-gray-400 text-sm mb-2">May 2024 • 200 Photos</p>
+                    <p class="text-amber-400 font-semibold text-lg">$399.00</p>
+                </div>
+            </div>
+            
+            <!-- Featured Collection Card 3 -->
+            <div class="collection-card group cursor-pointer">
+                <div class="relative overflow-hidden rounded-xl aspect-[4/5] mb-4">
+                    <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600" 
+                         alt="Birthday Party" 
+                         class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <span class="inline-block bg-purple-500 text-white text-xs font-semibold px-3 py-1 rounded-full mb-2">
+                            Celebration
+                        </span>
+                        <h3 class="text-white font-semibold text-xl">Sweet 16 Party</h3>
+                    </div>
+                </div>
+                <div class="px-2">
+                    <p class="text-gray-400 text-sm mb-2">April 2024 • 120 Photos</p>
+                    <p class="text-amber-400 font-semibold text-lg">$199.00</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'photos:batch-list' %}" 
+               class="inline-block bg-gradient-to-r from-amber-500 to-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 transform hover:scale-105">
+                View All Collections
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="py-20 bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1">
+                <h2 class="font-['Playfair_Display'] font-bold text-4xl sm:text-5xl mb-6">
+                    Why Choose <span class="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">DotNetLenses</span>
+                </h2>
+                <p class="text-gray-400 text-lg mb-8">
+                    We don't just take photos—we capture emotions, preserve memories, and tell your unique story through every frame.
+                </p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Professional Quality</h3>
+                            <p class="text-gray-400">High-resolution images with professional editing and color grading</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Quick Delivery</h3>
+                            <p class="text-gray-400">Receive your photos within 48 hours of your event</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Full Ownership</h3>
+                            <p class="text-gray-400">All photos come with full usage rights—print, share, and cherish forever</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-1 lg:order-2 relative">
+                <div class="relative w-full h-96 lg:h-full lg:min-h-[500px]">
+                    <img src="https://images.unsplash.com/photo-1452696193712-6cabf5103b63?w=800" 
+                         alt="Photographer at work" 
+                         class="absolute top-0 left-0 w-3/4 h-3/4 object-cover rounded-2xl shadow-2xl z-10">
+                    <div class="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-br from-amber-500/20 to-orange-600/20 rounded-2xl backdrop-blur-sm border border-amber-500/30"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-amber-500 via-orange-600 to-red-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="font-['Playfair_Display'] font-bold text-4xl sm:text-5xl md:text-6xl text-white mb-6">
+            Ready to Capture Your Story?
+        </h2>
+        <p class="text-white/90 text-lg sm:text-xl mb-8">
+            Browse our collections and find the perfect memories from your event
+        </p>
+        <a href="{% url 'photos:batch-list' %}" 
+           class="inline-block bg-white text-orange-600 px-10 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+            Explore Collections Now
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+
+

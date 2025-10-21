@@ -1,8 +1,9 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin
 from .models import Purchase
 
 @admin.register(Purchase)
-class PurchaseAdmin(admin.ModelAdmin):
+class PurchaseAdmin(ModelAdmin):
     list_display = ['id', 'email', 'batch', 'payment_status', 'amount', 'created_at']
     list_filter = ['payment_status', 'created_at', 'batch']
     search_fields = ['email', 'batch__title', 'stripe_session_id']
