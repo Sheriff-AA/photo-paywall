@@ -207,7 +207,7 @@ STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
 STATICFILES_DIRS = [
     STATICFILES_BASE_DIR
 ]
-STATIC_ROOT = BASE_DIR / 'local-cdn'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 LOGS_DIR = BASE_DIR / 'logs'
 LOGS_DIR.mkdir(exist_ok=True)
