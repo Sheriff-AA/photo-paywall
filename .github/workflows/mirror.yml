@@ -3,16 +3,20 @@ name: 'mirror'
 on:
   push:
     branches:
-        - main
+      - main
   schedule:
-    - cron: '* 3 * * *'
+    - cron: '0 3 * * *'
   workflow_dispatch:
-
 jobs:
   mirror:
     runs-on: ubuntu-latest
     name: mirror
     steps:
+      - name: Configure Git
+        run: |
+          git config --global --add safe.directory /github/workspace
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
       - name: mirror
         id: mirror
         uses: bridgelightcloud/github-mirror-action@v1
