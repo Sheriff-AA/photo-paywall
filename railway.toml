@@ -1,4 +1,7 @@
-[build]
+[[services]]
+name = "web"
+
+[services.build]
 builder = "DOCKERFILE"
 dockerfilePath = "./Dockerfile"
 watchPatterns = [
@@ -11,4 +14,29 @@ watchPatterns = [
     "railway.toml",
     "Dockerfile",
 ]
+
+# Override the CMD from Dockerfile for web service
+[services.deploy]
+startCommand = "gunicorn photobiz.wsgi:application --bind 0.0.0.0:$PORT"
+
+# Celery Worker Service
+[[services]]
+name = "celery-worker"
+
+[services.build]
+builder = "DOCKERFILE"
+dockerfilePath = "./Dockerfile"
+watchPatterns = [
+    "requirements.txt", 
+    "photobiz/",
+    "users/**", 
+    "payments/**", 
+    "downloads/**", 
+    "railway.toml",
+    "Dockerfile",
+]
+
+# Override the CMD from Dockerfile for celery
+[services.deploy]
+startCommand = "celery -A photobiz worker --loglevel=info --pool=solo"
 
