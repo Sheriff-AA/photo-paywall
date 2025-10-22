@@ -59,7 +59,7 @@ if DEBUG:
         "localhost"
     ]
 
-SITE_URL = 'http://localhost:8000'
+SITE_URL = 'https://dotnetlenses.com'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 # Application definition

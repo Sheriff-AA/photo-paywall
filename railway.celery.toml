@@ -1,5 +1,10 @@
 [build]
 builder = "dockerfile"
+dockerfilePath = "./Dockerfile"
+watchPatterns = [
+    "Dockerfile",
+    "photobiz/celery.py",
+]
 
 [deploy]
 startCommand = "celery -A photobiz worker --loglevel=info --pool=solo"
