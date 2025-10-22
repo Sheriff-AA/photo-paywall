@@ -26,8 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY', cast=str)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = config('DJANGO_DEBUG', cast=bool)
+DEBUG = config('DJANGO_DEBUG', cast=str)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
@@ -137,15 +136,15 @@ DATABASES = {
     }
 }
 
-# DATABASE_URL = config("DATABASE_URL", cast=str)
+DATABASE_URL = config("DATABASE_URL", cast=str)
 
-# if DATABASE_URL is not None:
-#     DATABASES = {
-#     'default': dj_database_url.config(
-#         default=DATABASE_URL,
-#         conn_health_checks=True
-#         )
-# }
+if DATABASE_URL is not None:
+    DATABASES = {
+    'default': dj_database_url.config(
+        default=DATABASE_URL,
+        conn_health_checks=True
+        )
+}
 
 
 # Password validation
@@ -205,7 +204,7 @@ STATICFILES_BASE_DIR = BASE_DIR / "staticfiles"
 STATICFILES_BASE_DIR.mkdir(exist_ok=True, parents=True)
 STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
 STATICFILES_DIRS = [
-    STATICFILES_BASE_DIR
+    # STATICFILES_BASE_DIR
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
