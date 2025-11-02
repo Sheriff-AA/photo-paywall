@@ -340,13 +340,13 @@ UNFOLD = {
                         "link": "/jide-admin/payments/downloadtoken/",
                     },
                      {
-                        "title": "Users",
-                        "icon": "download",
+                        "title": "Contacts",
+                        "icon": "contact_emergency",
                         "link": "/jide-admin/users/contact/",
                     },
                      {
-                        "title": "Contacts",
-                        "icon": "download",
+                        "title": "Users",
+                        "icon": "person_2",
                         "link": "/jide-admin/users/customuser/",
                     },
                 ],
