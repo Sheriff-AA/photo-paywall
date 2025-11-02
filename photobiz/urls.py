@@ -23,7 +23,7 @@ from django.views.generic import TemplateView
 from users.views import SubmitContactView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('jide-admin/', admin.site.urls),
    
     path('', TemplateView.as_view(template_name='base/home.html'), name='home'),
     path('about/', TemplateView.as_view(template_name='base/about.html'), name='about'),

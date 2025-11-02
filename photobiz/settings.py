@@ -317,37 +317,37 @@ UNFOLD = {
                     {
                         "title": "Dashboard",
                         "icon": "dashboard",
-                        "link": "/admin/",
+                        "link": "/jide-admin/",
                     },
                     {
                         "title": "Batches",
                         "icon": "folder",
-                        "link": "/admin/photos/batch/",
+                        "link": "/jide-admin/photos/batch/",
                     },
                     {
                         "title": "Photos",
                         "icon": "image",
-                        "link": "/admin/photos/photo/",
+                        "link": "/jide-admin/photos/photo/",
                     },
                     {
                         "title": "Purchases",
                         "icon": "attach_money",
-                        "link": "/admin/payments/purchase/",
+                        "link": "/jide-admin/payments/purchase/",
                     },
                     {
                         "title": "DownloadTokens",
                         "icon": "download",
-                        "link": "/admin/payments/downloadtoken/",
+                        "link": "/jide-admin/payments/downloadtoken/",
                     },
                      {
                         "title": "Users",
                         "icon": "download",
-                        "link": "/admin/users/contact/",
+                        "link": "/jide-admin/users/contact/",
                     },
                      {
                         "title": "Contacts",
                         "icon": "download",
-                        "link": "/admin/users/customuser/",
+                        "link": "/jide-admin/users/customuser/",
                     },
                 ],
             },
@@ -441,7 +441,7 @@ UNFOLD = {
 
 
 # backspace - ACCESS
-# stripe listen --forward-to localhost:8000/payments/webhook/
+# stripe listen --forward-to localhost:8000/api/payments/webhook/
 # celery -A photobiz worker --loglevel=info --pool=solo
 
 

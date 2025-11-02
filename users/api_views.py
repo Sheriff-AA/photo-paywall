@@ -10,5 +10,5 @@ class UserListAPIView(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAdminUser]
     renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
-    template_name = 'users/user_list.html'
+    template_name = 'about.html'
 

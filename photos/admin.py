@@ -14,6 +14,71 @@ class MultipleFileInput(forms.ClearableFileInput):
     """Custom widget that allows multiple file selection"""
     allow_multiple_selected = True
 
+    def render(self, name, value, attrs=None, renderer=None):
+        # Get the default file input HTML
+        file_input = super().render(name, value, attrs, renderer)
+        
+        # Add custom styling with a fake button
+        return format_html(
+            '''
+            <div class="custom-file-upload">
+                <style>
+                    .custom-file-upload {{
+                        position: relative;
+                        display: inline-block;
+                    }}
+                    .custom-file-upload input[type="file"] {{
+                        position: absolute;
+                        opacity: 0;
+                        width: 0.1px;
+                        height: 0.1px;
+                    }}
+                    .file-upload-btn {{
+                        display: inline-block;
+                        padding: 10px 20px;
+                        background-color: #417690;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-weight: bold;
+                        font-size: 14px;
+                        transition: background-color 0.3s;
+                    }}
+                    .file-upload-btn:hover {{
+                        background-color: #2f5968;
+                    }}
+                    .file-count {{
+                        margin-left: 10px;
+                        color: #666;
+                        font-size: 13px;
+                    }}
+                </style>
+                <label for="id_{name}" class="file-upload-btn">
+                    📁 Choose Files
+                </label>
+                <span class="file-count" id="file-count-{name}">No files selected</span>
+                {file_input}
+                <script>
+                    (function() {{
+                        var input = document.getElementById('id_{name}');
+                        var counter = document.getElementById('file-count-{name}');
+                        if (input && counter) {{
+                            input.addEventListener('change', function(e) {{
+                                var count = e.target.files.length;
+                                counter.textContent = count === 0 
+                                    ? 'No files selected' 
+                                    : count + ' file' + (count !== 1 ? 's' : '') + ' selected';
+                            }});
+                        }}
+                    }})();
+                </script>
+            </div>
+            ''',
+            name=name,
+            file_input=file_input
+        )
+
 
 class MultipleFileField(forms.FileField):
     """Custom field that accepts multiple files"""
@@ -91,7 +156,7 @@ class BatchAdmin(ModelAdmin):
                 '<em>You will be notified when uploads complete. Processing continues in the background.</em>'
             )
         }),
-        ('System Information', {
+        ('Collection Information', {
             'fields': (
                 'id', 
                 'photo_count_display',

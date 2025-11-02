@@ -1,35 +1,99 @@
 {% extends 'base/base.html' %}
-
 {% block title %}Download Expired - {{ block.super }}{% endblock %}
-
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="alert alert-warning text-center py-5">
-            <h1 class="alert-heading">⏰ Download Link Expired</h1>
-            <hr>
-            <p class="lead">This download link has expired or exceeded the maximum number of downloads.</p>
-            
-            {% if token %}
-            <div class="mt-4">
-                <p><strong>Collection:</strong> {{ token.batch_title }}</p>
-                <p><strong>Downloads used:</strong> {{ token.download_count }} of {{ token.max_downloads }}</p>
-                <p><strong>Expired:</strong> {{ token.expires_at|date:"F d, Y g:i A" }}</p>
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 py-20 px-4">
+    <div class="max-w-2xl w-full">
+        
+        <!-- Expired Icon -->
+        <div class="text-center mb-8">
+            <div class="inline-block mb-8">
+                <svg class="w-24 h-24 sm:w-32 sm:h-32 text-orange-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
             </div>
-            {% endif %}
         </div>
-
-        <div class="card">
-            <div class="card-body text-center">
-                <h5>Need Help?</h5>
-                <p>If you believe this is an error or need to re-download your photos, please contact us with your purchase information.</p>
+        
+        <!-- Main Heading -->
+        <div class="text-center mb-8">
+            <h1 class="font-['Playfair_Display'] text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
+                Download Link <span class="text-orange-500">Expired</span>
+            </h1>
+            <p class="text-gray-300 text-lg sm:text-xl">
+                This download link has expired or exceeded the maximum number of downloads.
+            </p>
+        </div>
+        
+        <!-- Token Details -->
+        {% if token %}
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 sm:p-8 mb-8 shadow-xl">
+            <h2 class="text-2xl font-bold mb-6 text-gray-100">Download Details</h2>
+            
+            <div class="space-y-4">
+                <div class="flex items-start justify-between pb-4 border-b border-gray-800">
+                    <div class="flex items-start space-x-3">
+                        <svg class="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <div>
+                            <p class="text-sm text-gray-400 mb-1">Collection</p>
+                            <p class="text-lg font-semibold text-gray-100">{{ token.batch_title }}</p>
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="d-flex gap-2 justify-content-center">
-                    <a href="mailto:support@example.com" class="btn btn-primary">Contact Support</a>
-                    <a href="/" class="btn btn-outline-primary">Browse Collections</a>
+                <div class="flex items-center justify-between pb-4 border-b border-gray-800">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        <span class="text-gray-300">Downloads used:</span>
+                    </div>
+                    <span class="text-gray-200 font-semibold">{{ token.download_count }} of {{ token.max_downloads }}</span>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-6 h-6 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-300">Expired:</span>
+                    </div>
+                    <span class="text-gray-200 font-semibold">{{ token.expires_at|date:"F d, Y g:i A" }}</span>
                 </div>
             </div>
         </div>
+        {% endif %}
+        
+        <!-- Help Section -->
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 sm:p-8 mb-8 shadow-xl">
+            <div class="flex items-start space-x-4">
+                <svg class="w-8 h-8 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-100">Need Help?</h3>
+                    <p class="text-gray-400 mb-4">
+                        If you believe this is an error or need to re-download your photos, please contact us with your purchase information.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="mailto:support@example.com" class="inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                <span>Contact Support</span>
+            </a>
+            
+            <a href="/" class="inline-flex items-center justify-center space-x-2 border-2 border-amber-500 text-amber-500 px-8 py-4 rounded-lg font-bold text-lg hover:bg-amber-500 hover:text-white transition-all duration-300">
+                <span>Browse Collections</span>
+            </a>
+        </div>
+        
     </div>
-</div>
+</section>
 {% endblock %}
+

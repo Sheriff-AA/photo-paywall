@@ -32,9 +32,12 @@ class DownloadPageView(View):
                 'error': 'Download token has expired or exceeded maximum downloads'
             }, status=410)
         
+        remaining_downloads = download_token.max_downloads - download_token.download_count
+        
         # Render the download page
         context = {
             'token': download_token,
+            'remaining_downloads':remaining_downloads,
             'purchase': download_token.purchase,
             'batch': download_token.purchase.batch,
         }
