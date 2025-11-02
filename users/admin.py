@@ -47,7 +47,7 @@ class ContactAdmin(ModelAdmin):
     
     ordering = ('-created_at',)
     
-    def has_delete_permission(self, request):
-        return request.user.is_superuser
+    # def has_delete_permission(self, request):
+    #     return request.user.is_superuser
     
 
