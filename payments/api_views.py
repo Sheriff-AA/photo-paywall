@@ -143,7 +143,6 @@ class StripeWebhookAPIView(APIView):
     """
     Stripe webhook endpoint
     Handles payment events from Stripe
-    Already API-only, no changes needed
     """
     permission_classes = [AllowAny]
     

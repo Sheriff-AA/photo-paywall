@@ -36,7 +36,7 @@ class Purchase(models.Model):
         self.save()
         
         # Create download token
-        DownloadToken.objects.create(purchase=self)
+        DownloadToken.objects.get_or_create(purchase=self)
 
 
 class DownloadToken(models.Model):

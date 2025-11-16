@@ -11,7 +11,7 @@ def send_download_email(purchase):
     except DownloadToken.DoesNotExist:
         return False
     
-    download_url = f"{settings.SITE_URL}/downloads/{token.token}/?download=1"
+    download_url = f"{settings.SITE_URL}/downloads/{token.token}"
     
     subject = f"Your photos are ready for download - {purchase.batch.title}"
     
@@ -47,7 +47,47 @@ def send_download_email(purchase):
     
     <p>If you have any issues, please contact us.</p>
     
-    <p>Best regards,<br>Your Photo Team</p>
+    <p>Best regards,<br>DotNetLenses</p>
+    """
+
+    html_message = f"""
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
+            <h2 style="color: white; margin: 0; font-size: 28px; font-weight: 600;">Your photos are ready! 📸</h2>
+        </div>
+        
+        <div style="background: #f8f9fa; padding: 40px 30px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            
+            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+                Thank you for your purchase of "<strong style="color: #667eea;">{purchase.batch.title}</strong>".
+            </p>
+            
+            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+                Your photos are now ready for download:
+            </p>
+            
+            <div style="text-align: center; margin: 35px 0;">
+                <a href="{download_url}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); transition: transform 0.2s;">Download Photos</a>
+            </div>
+            
+            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; border-radius: 4px; margin: 30px 0;">
+                <p style="margin: 0; font-size: 14px; color: #856404;">
+                    ⏱️ <strong>Note:</strong> This link will expire in 24 hours and can be used up to 3 times.
+                </p>
+            </div>
+            
+            <p style="font-size: 16px; line-height: 1.6; margin-top: 30px; color: #666;">
+                If you have any issues, please don't hesitate to contact us.
+            </p>
+            
+            <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e9ecef;">
+                <p style="margin: 0; font-size: 16px; color: #666;">
+                    Best regards,<br>
+                    <strong style="color: #667eea; font-size: 18px;">DotNetLenses</strong>
+                </p>
+            </div> 
+        </div>         
+    </div>
     """
     
     try:

@@ -18,7 +18,6 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -30,15 +29,18 @@ DEBUG = config('DJANGO_DEBUG', cast=str)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config("EMAIL_HOST", cast=str, default=None)
-EMAIL_PORT = config("EMAIL_PORT", cast=str, default='587') # Recommended
+EMAIL_PORT = config("EMAIL_PORT", cast=int, default='587') # Recommended
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default=None)
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str, default=None)
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)  # Use EMAIL_PORT 587 for TLS
 EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, default=False)  # Use MAIL_PORT 465 for SSL
 
 
+# if not DEBUG:
+DEFAULT_FROM_EMAIL = 'hello@example.com'
+
 if not DEBUG:
-    DEFAULT_FROM_EMAIL = 'mailtrap@sherifproductions.com'
+    DEFAULT_FROM_EMAIL = 'hello@dotnetlenses.com'
 
 
 CSRF_TRUSTED_ORIGINS = [
@@ -422,6 +424,7 @@ UNFOLD = {
 #     },
 # }
 
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -440,8 +443,6 @@ UNFOLD = {
 
 
 
-# backspace - ACCESS
-# stripe listen --forward-to localhost:8000/api/payments/webhook/
-# celery -A photobiz worker --loglevel=info --pool=solo
+
 
 

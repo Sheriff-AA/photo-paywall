@@ -351,19 +351,19 @@ class Photo(models.Model):
                     {'width': 800, 'crop': 'limit'},
                     {'quality': 'auto:low'},
                     # Center watermark
-                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'PREVIEW'}},
+                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'DOTNETLENSES'}},
                     {'flags': 'layer_apply', 'gravity': 'center', 'opacity': 50},
                     # Top-left watermark
-                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'PREVIEW'}},
+                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'DOTNETLENSES'}},
                     {'flags': 'layer_apply', 'gravity': 'north_west', 'x': 100, 'y': 100, 'opacity': 50},
                     # Top-right watermark
-                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'PREVIEW'}},
+                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'DOTNETLENSES'}},
                     {'flags': 'layer_apply', 'gravity': 'north_east', 'x': 100, 'y': 100, 'opacity': 50},
                     # Bottom-left watermark
-                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'PREVIEW'}},
+                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'DOTNETLENSES'}},
                     {'flags': 'layer_apply', 'gravity': 'south_west', 'x': 100, 'y': 100, 'opacity': 50},
                     # Bottom-right watermark
-                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'PREVIEW'}},
+                    {'overlay': {'font_family': 'Arial', 'font_size': 40, 'font_weight': 'bold', 'text': 'DOTNETLENSES'}},
                     {'flags': 'layer_apply', 'gravity': 'south_east', 'x': 100, 'y': 100, 'opacity': 50},
                 ]
             )
